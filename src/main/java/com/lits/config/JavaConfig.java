@@ -1,20 +1,37 @@
 package com.lits.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import javax.activation.DataSource;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.orm.jpa.JpaVendorAdapter;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 
 @Configuration
 public class JavaConfig {
 
+
+    @Value("${className}")
+    private String className;
+
+    @Value("${username}")
+    private String username;
+
+    @Value("${password}")
+    private String password;
+
+    @Value("${dbURL}")
+    private String dbURL;
+
+
     @Bean
-    public DataSource dataSource() {
+    public DriverManagerDataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        dataSource.setUsername("natalia");
-        dataSource.setPassword("natalia0211");
-        dataSource.setUrl( "jdbc:mysql://localhost:3306/myDb?createDatabaseIfNotExist=true");
+        dataSource.setDriverClassName(className);
+        dataSource.setUsername(username);
+        dataSource.setPassword(password);
+        dataSource.setUrl(dbURL);
         return dataSource;
     }
 
@@ -22,10 +39,9 @@ public class JavaConfig {
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(dataSource());
-        em.setPackagesToScan(new String[] { "com.baeldung.persistence.model" });
+        em.setPackagesToScan("com.baeldung.persistence.model");
         JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         em.setJpaVendorAdapter(vendorAdapter);
-        em.setJpaProperties(additionalProperties());
         return em;
     }
 }
