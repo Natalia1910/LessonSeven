@@ -1,8 +1,10 @@
 package com.lits.entity;
 
 import javax.persistence.Entity;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "table")
 public class Teacher {
    private int id;
    private String name;
