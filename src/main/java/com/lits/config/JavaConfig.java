@@ -2,15 +2,17 @@ package com.lits.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 
-@Configuration
-public class JavaConfig {
 
+@Configuration
+@ComponentScan("com.lits")
+public class JavaConfig {
 
     @Value("${className}")
     private String className;
@@ -23,7 +25,6 @@ public class JavaConfig {
 
     @Value("${dbURL}")
     private String dbURL;
-
 
     @Bean
     public DriverManagerDataSource dataSource() {
