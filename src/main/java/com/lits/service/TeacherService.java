@@ -12,6 +12,6 @@ public class TeacherService {
     private EntityManagerFactory em;
 
     public void add (Teacher teacher){
-
+        em.createEntityManager().persist(teacher);
     }
 }
