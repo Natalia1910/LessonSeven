@@ -1,17 +1,29 @@
 package com.lits.service;
 
 import com.lits.entity.Teacher;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
+import java.util.List;
 
 @Component
 public class TeacherService {
-    @Autowired
-    private EntityManagerFactory em;
+    @PersistenceContext
+    private EntityManager entityManager;
 
-    public void add (Teacher teacher){
-        em.createEntityManager().persist(teacher);
+    @Transactional
+    public void add(Teacher teacher) {
+        entityManager.persist(teacher);
+    }
+
+    public List<Teacher> getAllTeachers() {
+        return entityManager.createQuery("SELECT t FROM Teacher t").getResultList();
+    }
+
+    @Transactional
+    public void removeTeacher(int id) {
+        entityManager.remove(entityManager.find(Teacher.class, id));
     }
 }

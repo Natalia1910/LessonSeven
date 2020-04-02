@@ -1,19 +1,23 @@
 package com.lits.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.Objects;
 
 @Entity
 @Table(name = "course")
-public class Course {
+public class Course implements Serializable {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     private String name;
 
-    public String getName() {
-        return name;
-    }
+/*    @ManyToOne
+    @JoinColumn(name="id", nullable = false)
+    private Teacher teacher;*/
 
-    public void setName(String name) {
+    public Course(String name) {
         this.name = name;
     }
 
@@ -23,5 +27,26 @@ public class Course {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Course course = (Course) o;
+        return Objects.equals(name, course.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
     }
 }
